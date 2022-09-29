@@ -7,3 +7,4 @@
 #include "../../headers/vector.h"
 #include "../../headers/tstl.h"
 #include "../../headers/global_allocation_policy.h"
+#include "../../headers/linked_list_entry.h"

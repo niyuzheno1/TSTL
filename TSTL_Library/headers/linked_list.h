@@ -2,6 +2,7 @@
 #include "skip_iterator.h"
 #include "linked_list_entry.h"
 #include <initializer_list>
+#include "global_allocation_policy.h"
 namespace tstl{
      template<typename T>
     class linked_list{
@@ -20,7 +21,7 @@ namespace tstl{
                 tail = nullptr;
                 mSize = 0;
                 for(auto it = vx.begin(); it != vx.end(); it++){
-                    push_back(*it);
+                    push_back(it->data);
                 }
             }
             linked_list(linked_list && vx){
@@ -39,10 +40,10 @@ namespace tstl{
                     push_back(*it);
                 }
             }
-            linked_list &operator=(const linked_list & vx){
+            linked_list &operator=(const linked_list<T> & vx){
                 clear();
-                for(auto it = vx.begin(); it != vx.end(); it++){
-                    push_back(*it);
+                for(auto it = vx.begin(); it != vx.end(); ++it){
+                    push_back(it->data);
                 }
                 return *this;
             }
@@ -56,6 +57,7 @@ namespace tstl{
                 vx.mSize = 0;
                 return *this;
             }
+           
             void push_back(const T & x){
                 if(head == nullptr){
                     head = linked_list_entry<T>::newInstance(x, nullptr);
@@ -117,7 +119,7 @@ namespace tstl{
             void assign(const linked_list & vx){
                 clear();
                 for(auto it = vx.begin(); it != vx.end(); it++){
-                    push_back(*it);
+                    push_back(it->data);
                 }
             }
             void assign(linked_list && vx){
@@ -193,13 +195,12 @@ namespace tstl{
                 return tail->data;
             }
 
-            //newInstance
             static linked_list<T> * newInstance(){
-                //return tree_sitter_system_util::system_initializer::gmm->newInstance<linkedlist<T>>();
+                return global_allocation_policy::getMemoryManager()->newInstance<linked_list<T>>();
             }
 
             //predecessorOf
-            static linked_list<T> * predecessorOf(linked_list_entry<T> * ptr){
+            static linked_list_entry<T> * predecessorOf(linked_list_entry<T> * ptr){
                 linked_list_entry<T> * it = head;
                 while(it != nullptr){
                     if(it->next == ptr){
@@ -210,16 +211,16 @@ namespace tstl{
                 return nullptr;
             }
             //successorOf
-            static linked_list<T> * successorOf(linked_list_entry<T> * ptr){
+            static linked_list_entry<T> * successorOf(linked_list_entry<T> * ptr){
                 return ptr->next;
             }
 
             //begin and end
-            skip_iterator<linked_list, T> begin(){
-                return skip_iterator<linked_list, T>(this, head);
+            skip_iterator<const linked_list<T>, linked_list_entry<T>> begin() const {
+                return skip_iterator<const linked_list<T>, linked_list_entry<T>>(this, head);
             }
-            skip_iterator<linked_list, T>  end(){
-                return skip_iterator<linked_list, T>(this, nullptr);
+            skip_iterator<const linked_list<T>, linked_list_entry<T>>  end() const {
+                return skip_iterator<const linked_list<T>, linked_list_entry<T>>(this, (linked_list_entry<T>*)nullptr);
             }
       
     };

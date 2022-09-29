@@ -211,7 +211,7 @@ void node::propAll()
 }
 
 
-node * node::get_end_point(node **root, bool endding = false, bool do_splay = true)
+node * node::get_end_point(node **root, bool endding, bool do_splay )
 {
     if (this == &nil)
         return &nil;
@@ -225,20 +225,20 @@ node * node::get_end_point(node **root, bool endding = false, bool do_splay = tr
     }
     return v;
 }
-node * node::begin(node **root, bool do_splay = true)
+node * node::begin(node **root, bool do_splay )
 {
     if (this == &nil)
         return &nil;
     return get_end_point(root, false, do_splay);
 }
-node * node::end(node **root, bool do_splay = true)
+node * node::end(node **root, bool do_splay )
 {
     if (this == &nil)
         return &nil;
     return get_end_point(root, true, do_splay);
 }
 
-node * node::cessor(node **root, bool succ, bool do_splay = true) const
+node * node::cessor(node **root, bool succ, bool do_splay) const
 {
     if (this == &nil)
         return &nil;
@@ -250,13 +250,13 @@ node * node::cessor(node **root, bool succ, bool do_splay = true) const
     return v->p;
 }
 
-node * node::predecessor(node **root, bool do_splay = true) const
+node * node::predecessor(node **root, bool do_splay) const
 {
     if (this == &nil)
         return &nil;
     return cessor(root, false, do_splay);
 }
-node * node::successor(node **root, bool do_splay = true) const
+node * node::successor(node **root, bool do_splay) const
 {
     if (this == &nil)
         return &nil;

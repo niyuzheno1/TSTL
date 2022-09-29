@@ -16,11 +16,16 @@ class skip_iterator{
         bool operator!=(const skip_iterator& other){
             return !(*this == other);
         }
-        skip_iterator& operator++(){
-            ptr = container->successorOf(ptr);
+        skip_iterator<U, T>& operator++(){
+            ptr = U::successorOf(ptr);
             return *this;
         }
-        skip_iterator& operator--(){
+        //postfix increment
+        skip_iterator<U, T> operator++(int){
+            this->ptr = U::successorOf(ptr);
+            return *this;
+        }
+        skip_iterator<U, T> & operator--(){
             ptr = container->predecessorOf(ptr);
             return *this;
         }
