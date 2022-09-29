@@ -1549,6 +1549,177 @@ TC test110 = []() -> bool {
     //retire findidx
     return true;
 };
+// set()
+TC test111 = []() -> bool {
+    set<int> s;
+    if(s.size() != 0){
+        return false;
+    }
+    return true;
+};
+// set (std::initializer_list<T1> il)
+TC test112 = []() -> bool {
+    set<int> s = {1, 2, 3};
+    if(s.size() != 3){
+        return false;
+    }
+    if(s.count(1) != 1){
+        return false;
+    }
+    if(s.count(2) != 1){
+        return false;
+    }
+    if(s.count(3) != 1){
+        return false;
+    }
+    return true;
+};
+// bool empty() cons
+TC test113 = []() -> bool {
+    set<int> s;
+    if(s.empty() != true){
+        return false;
+    }
+    s.insert(1);
+    if(s.empty() != false){
+        return false;
+    }
+    return true;
+};
+// size_t size() const
+TC test114 = []() -> bool {
+    set<int> s;
+    if(s.size() != 0){
+        return false;
+    }
+    s.insert(1);
+    if(s.size() != 1){
+        return false;
+    }
+    s.insert(2);
+    if(s.size() != 2){
+        return false;
+    }
+    s.insert(3);
+    if(s.size() != 3){
+        return false;
+    }
+    return true;
+};
+// void insert(const T1& key)
+TC test115 = []() -> bool {
+    set<int> s;
+    s.insert(1);
+    if(s.size() != 1){
+        return false;
+    }
+    if(s.count(1) != 1){
+        return false;
+    }
+    s.insert(2);
+    if(s.size() != 2){
+        return false;
+    }
+    if(s.count(2) != 1){
+        return false;
+    }
+    s.insert(3);
+    if(s.size() != 3){
+        return false;
+    }
+    if(s.count(3) != 1){
+        return false;
+    }
+    return true;
+};
+// void erase(const T1& key)
+TC test116 = []() -> bool {
+    set<int> s;
+    s.insert(1);
+    s.insert(2);
+    s.insert(3);
+    s.erase(1);
+    if(s.size() != 2){
+        return false;
+    }
+    if(s.count(1) != 0){
+        return false;
+    }
+    if(s.count(2) != 1){
+        return false;
+    }
+    if(s.count(3) != 1){
+        return false;
+    }
+    s.erase(2);
+    if(s.size() != 1){
+        return false;
+    }
+    if(s.count(1) != 0){
+        return false;
+    }
+    if(s.count(2) != 0){
+        return false;
+    }
+    if(s.count(3) != 1){
+        return false;
+    }
+    s.erase(3);
+    if(s.size() != 0){
+        return false;
+    }
+    if(s.count(1) != 0){
+        return false;
+    }
+    if(s.count(2) != 0){
+        return false;
+    }
+    if(s.count(3) != 0){
+        return false;
+    }
+    return true;
+};
+// void clear()
+TC test117 = []() -> bool {
+    set<int> s;
+    s.insert(1);
+    s.insert(2);
+    s.insert(3);
+    s.clear();
+    if(s.size() != 0){
+        return false;
+    }
+    if(s.count(1) != 0){
+        return false;
+    }
+    if(s.count(2) != 0){
+        return false;
+    }
+    if(s.count(3) != 0){
+        return false;
+    }
+    return true;
+};
+// int count(const T1& key) const 
+TC test118 = []() -> bool {
+    set<int> s;
+    s.insert(1);
+    s.insert(2);
+    s.insert(3);
+    if(s.count(1) != 1){
+        return false;
+    }
+    if(s.count(2) != 1){
+        return false;
+    }
+    if(s.count(3) != 1){
+        return false;
+    }
+    if(s.count(4) != 0){
+        return false;
+    }
+    return true;
+};
 
 
 //testGroup 
@@ -1573,7 +1744,9 @@ const TC testGroup[] = {test1, test2, test3, test4 ,test5,
                         test91, test92, test93, test94, test95,
                         test96, test97, test98, test99, test100,
                         test101, test102, test103, test104, test105,
-                        test106, test107, test108, test109, test110};
+                        test106, test107, test108, test109, test110,
+                        test111, test112, test113, test114, test115,
+                        test116, test117, test118};
 
 SophiscatedMMInstance smm;
 
