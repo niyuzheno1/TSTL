@@ -761,6 +761,96 @@ TC test64 = []() -> bool {
     return true;
 };
 
+// pair() : first(), second();
+TC test65 = []() -> bool {
+    pair<int, string> p(1, "hello");
+    if(p.first != 1){
+        return false;
+    }
+    if(strcmp(p.second, "hello") != 0){
+        return false;
+    }
+    return true;
+};
+// pair(const T1 &x, const T2 &y) : first(x), second(y);
+TC test66 = []() -> bool {
+    pair<int, string> p(1, "hello");
+    if(p.first != 1){
+        return false;
+    }
+    if(strcmp(p.second, "hello") != 0){
+        return false;
+    }
+    return true;
+};
+// pair(T1 &&x, T2 &&y) : first(x), second(y);
+TC test67 = []() -> bool {
+    pair<int, string> p(1, "hello");
+    if(p.first != 1){
+        return false;
+    }
+    if(strcmp(p.second, "hello") != 0){
+        return false;
+    }
+    return true;
+};
+// pair(const pair &p) : first(p.first), second(p.second);
+TC test68 = []() -> bool {
+    pair<int, string> p(1, "hello");
+    if(p.first != 1){
+        return false;
+    }
+    if(strcmp(p.second, "hello") != 0){
+        return false;
+    }
+    return true;
+};
+// pair(pair &&p) : first(p.first), second(p.second);
+TC test69 = []() -> bool {
+    pair<int, string> p(1, "hello");
+    if(p.first != 1){
+        return false;
+    }
+    if(strcmp(p.second, "hello") != 0){
+        return false;
+    }
+    return true;
+};
+// pair &operator=(const pair &p);
+TC test70 = []() -> bool {
+    pair<int, string> p(1, "hello");
+    if(p.first != 1){
+        return false;
+    }
+    if(strcmp(p.second, "hello") != 0){
+        return false;
+    }
+    return true;
+};
+// static pair *new_instance(const T1 &x, const T2 &y);
+TC test71 = []() -> bool {
+    pair<int, string> *p = pair<int, string>::new_instance(1, string("hello"));
+    if(p->first != 1){
+        return false;
+    }
+    if(strcmp(p->second, "hello") != 0){
+        return false;
+    }
+    return true;
+};
+// pair<T1, T2> make_pair(const T1 &x, const T2 &y);
+TC test72 = []() -> bool {
+    pair<int, string> p = make_pair(1, string("hello"));
+    if(p.first != 1){
+        return false;
+    }
+    if(strcmp(p.second, "hello") != 0){
+        return false;
+    }
+    return true;
+};
+
+
 //testGroup 
 const TC testGroup[] = {test1, test2, test3, test4 ,test5,
                         test6, test7, test8, test9, test10,
@@ -774,7 +864,9 @@ const TC testGroup[] = {test1, test2, test3, test4 ,test5,
                         test46, test47, test48, test49, test50,
                         test51, test52, test53, test54, test55,
                         test56, test57, test58, test59, test60,
-                        test61, test62, test63, test64};
+                        test61, test62, test63, test64, test65,
+                        test66, test67, test68, test69, test70,
+                        test71, test72};
 
 SophiscatedMMInstance smm;
 
