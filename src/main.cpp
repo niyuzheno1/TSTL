@@ -1768,5 +1768,13 @@ int main(){
             std::cout << "test case " << i + 1 <<" passed" << std::endl;
         }
     }
+    //get the memory usage
+    char * tm = (char *)smm.getWmem();
+    // diff with localMemory
+    int cnt = tm - localMemory;
+    std::cout << "memory usage: " << cnt << std::endl;
+    //in KB
+    std::cout << "memory usage: " << cnt / 1024 << "KB" << std::endl;
+
     return 0;
 }
