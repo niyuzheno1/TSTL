@@ -1,6 +1,8 @@
 #pragma once
 #include "tstl.h"
 #include "global_allocation_policy.h"
+#include "node.h"
+#include "splay_tree_node_count_pair.h"
 namespace tstl
 {
     template<class splay_key, class splay_value>
@@ -43,7 +45,9 @@ namespace tstl
         }
         void swap_key(node *other) override
         {
-            swap(key_value().first, ((snode*)other)->key_value().first);
+            void * temp = this->data;
+            this->data = other->data;
+            other->data = temp;
         }
         static const snode * const_snode_cast(const node * _other) {
             const snode* other = dynamic_cast<const snode*>(_other);

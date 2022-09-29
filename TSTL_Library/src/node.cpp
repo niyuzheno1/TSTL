@@ -3,6 +3,8 @@
 #include "splay_tree_node_count_pair.h"
 using namespace tstl;
 
+node node::nil;
+
 node::node()
 {
     p = c[0] = c[1] = &nil;
@@ -312,7 +314,7 @@ node *node::remove(node **root)
     if (this == &nil)
         return &nil;
     assert(this->c[0] == &nil || this->c[1] == &nil);
-    node *child = this->c[0] ? this->c[0] : this->c[1];
+    node *child = this->c[0] != &nil ? this->c[0] : this->c[1];
     if (this->p != &nil)
     {
         node *p = this->p;

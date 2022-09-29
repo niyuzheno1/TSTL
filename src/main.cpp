@@ -849,6 +849,706 @@ TC test72 = []() -> bool {
     }
     return true;
 };
+// test vector()
+TC test73 = []() -> bool {
+    vector<int> v;
+    if(v.size() != 0){
+        return false;
+    }
+    return true;
+};
+// test vector(const vector & vx)
+TC test74 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    vector<int> v2(v);
+    if(v2.size() != 3){
+        return false;
+    }
+    if(v2[0] != 1){
+        return false;
+    }
+    if(v2[1] != 2){
+        return false;
+    }
+    if(v2[2] != 3){
+        return false;
+    }
+    return true;
+};
+// test vector(vector && vx)
+TC test75 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    vector<int> v2(std::move(v));
+    if(v2.size() != 3){
+        return false;
+    }
+    if(v2[0] != 1){
+        return false;
+    }
+    if(v2[1] != 2){
+        return false;
+    }
+    if(v2[2] != 3){
+        return false;
+    }
+    return true;
+};
+// test vector (std::initializer_list<T> il)
+TC test76 = []() -> bool {
+    vector<int> v = {1, 2, 3};
+    if(v.size() != 3){
+        return false;
+    }
+    if(v[0] != 1){
+        return false;
+    }
+    if(v[1] != 2){
+        return false;
+    }
+    if(v[2] != 3){
+        return false;
+    }
+    return true;
+};
+// test vector &operator=(const vector & vx)
+TC test77 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    vector<int> v2;
+    v2 = v;
+    if(v2.size() != 3){
+        return false;
+    }
+    if(v2[0] != 1){
+        return false;
+    }
+    if(v2[1] != 2){
+        return false;
+    }
+    if(v2[2] != 3){
+        return false;
+    }
+    return true;
+};
+// test vector &operator=(vector && vx)
+TC test78 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    vector<int> v2;
+    v2 = std::move(v);
+    if(v2.size() != 3){
+        return false;
+    }
+    if(v2[0] != 1){
+        return false;
+    }
+    if(v2[1] != 2){
+        return false;
+    }
+    if(v2[2] != 3){
+        return false;
+    }
+    return true;
+};
+// test void push_back(const T & x)
+TC test79 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    if(v.size() != 3){
+        return false;
+    }
+    if(v[0] != 1){
+        return false;
+    }
+    if(v[1] != 2){
+        return false;
+    }
+    if(v[2] != 3){
+        return false;
+    }
+    return true;
+};
+// test void push_back(T && x)
+TC test80 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    if(v.size() != 3){
+        return false;
+    }
+    if(v[0] != 1){
+        return false;
+    }
+    if(v[1] != 2){
+        return false;
+    }
+    if(v[2] != 3){
+        return false;
+    }
+    return true;
+};
+// test void pop_back()
+TC test81 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    v.pop_back();
+    if(v.size() != 2){
+        return false;
+    }
+    if(v[0] != 1){
+        return false;
+    }
+    if(v[1] != 2){
+        return false;
+    }
+    return true;
+};
+// test void clear()
+TC test82 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    v.clear();
+    if(v.size() != 0){
+        return false;
+    }
+    return true;
+};
+
+
+TC test83 = []() -> bool {
+    
+    return true;
+};
+
+
+// test void resize(size_t sz)
+TC test84 = []() -> bool {
+    vector<int> v;
+    v.resize(10);
+   
+    return true;
+};
+// test void assign(const vector & vx)
+TC test85 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    vector<int> v2;
+    v2.assign(v);
+    if(v2.size() != 3){
+        return false;
+    }
+    if(v2[0] != 1){
+        return false;
+    }
+    if(v2[1] != 2){
+        return false;
+    }
+    if(v2[2] != 3){
+        return false;
+    }
+    return true;
+};
+// test void assign(vector && vx)
+TC test86 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    vector<int> v2;
+    v2.assign(std::move(v));
+    if(v2.size() != 3){
+        return false;
+    }
+    if(v2[0] != 1){
+        return false;
+    }
+    if(v2[1] != 2){
+        return false;
+    }
+    if(v2[2] != 3){
+        return false;
+    }
+    return true;
+};
+// test T &operator[](size_t idx) const
+TC test87 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    if(v[0] != 1){
+        return false;
+    }
+    if(v[1] != 2){
+        return false;
+    }
+    if(v[2] != 3){
+        return false;
+    }
+    return true;
+};
+// test T &at(size_t) const
+TC test88 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    if(v.at(0) != 1){
+        return false;
+    }
+    if(v.at(1) != 2){
+        return false;
+    }
+    if(v.at(2) != 3){
+        return false;
+    }
+    return true;
+};
+// test size_t size() cons
+TC test89 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    if(v.size() != 3){
+        return false;
+    }
+    return true;
+};
+// test void emplace_back( Args&&... args )
+TC test90 = []() -> bool {
+    vector<int> v;
+    v.emplace_back(1);
+    v.emplace_back(2);
+    v.emplace_back(3);
+    if(v.size() != 3){
+        return false;
+    }
+    if(v[0] != 1){
+        return false;
+    }
+    if(v[1] != 2){
+        return false;
+    }
+    if(v[2] != 3){
+        return false;
+    }
+    return true;
+};
+// test bool empty()
+TC test91 = []() -> bool {
+    vector<int> v;
+    if(v.empty() == false){
+        return false;
+    }
+    v.push_back(1);
+    if(v.empty() == true){
+        return false;
+    }
+    return true;
+};
+// test size_t findidx(const T & x)
+TC test92 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    if(v.findidx(1) != 0){
+        return false;
+    }
+    if(v.findidx(2) != 1){
+        return false;
+    }
+    if(v.findidx(3) != 2){
+        return false;
+    }
+    return true;
+};
+// test void erase(int idx)
+TC test93 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    v.erase(1);
+    if(v.size() != 2){
+        return false;
+    }
+    if(v[0] != 1){
+        return false;
+    }
+    if(v[1] != 3){
+        return false;
+    }
+    return true;
+};
+// test T &back()
+TC test94 = []() -> bool {
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    if(v.back() != 3){
+        return false;
+    }
+    return true;
+};
+
+// test  map() : m_data()
+TC test95 = []() -> bool {
+    map<int, int> m;
+    if(m.size() != 0){
+        return false;
+    }
+    return true;
+};
+// test  map(const map & mx) : m_data()
+TC test96 = []() -> bool {
+    map<int, int> m;
+    m.insert(1, 1);
+    m.insert(2, 2);
+    m.insert(3, 3);
+    map<int, int> m2(m);
+    if(m2.size() != 3){
+        return false;
+    }
+    if(m2[1] != 1){
+        return false;
+    }
+    if(m2[2] != 2){
+        return false;
+    }
+    if(m2[3] != 3){
+        return false;
+    }
+    return true;
+};
+// test  map(map && mx) : m_data()
+TC test97 = []() -> bool {
+    map<int, int> m;
+    m.insert(1, 1);
+    m.insert(2, 2);
+    m.insert(3, 3);
+    map<int, int> m2(std::move(m));
+    if(m2.size() != 3){
+        return false;
+    }
+    if(m2[1] != 1){
+        return false;
+    }
+    if(m2[2] != 2){
+        return false;
+    }
+    if(m2[3] != 3){
+        return false;
+    }
+    return true;
+};
+// test  map &operator=(const map &)
+TC test98 = []() -> bool {
+    map<int, int> m;
+    m.insert(1, 1);
+    m.insert(2, 2);
+    m.insert(3, 3);
+    map<int, int> m2;
+    m2 = m;
+    if(m2.size() != 3){
+        return false;
+    }
+    if(m2[1] != 1){
+        return false;
+    }
+    if(m2[2] != 2){
+        return false;
+    }
+    if(m2[3] != 3){
+        return false;
+    }
+    return true;
+};
+// test  map &operator=(map &&)
+TC test99 = []() -> bool {
+    map<int, int> m;
+    m.insert(1, 1);
+    m.insert(2, 2);
+    m.insert(3, 3);
+    map<int, int> m2;
+    m2 = std::move(m);
+    if(m2.size() != 3){
+        return false;
+    }
+    if(m2[1] != 1){
+        return false;
+    }
+    if(m2[2] != 2){
+        return false;
+    }
+    if(m2[3] != 3){
+        return false;
+    }
+    return true;
+};
+// test  void assign(const map & mx)
+TC test100 = []() -> bool {
+    map<int, int> m;
+    m.insert(1, 1);
+    m.insert(2, 2);
+    m.insert(3, 3);
+    map<int, int> m2;
+    m2.assign(m);
+    if(m2.size() != 3){
+        return false;
+    }
+    if(m2[1] != 1){
+        return false;
+    }
+    if(m2[2] != 2){
+        return false;
+    }
+    if(m2[3] != 3){
+        return false;
+    }
+    return true;
+};
+// test  void assign(map && mx)
+TC test101 = []() -> bool {
+    map<int, int> m;
+    m.insert(1, 1);
+    m.insert(2, 2);
+    m.insert(3, 3);
+    map<int, int> m2;
+    m2.assign(std::move(m));
+    if(m2.size() != 3){
+        return false;
+    }
+    if(m2[1] != 1){
+        return false;
+    }
+    if(m2[2] != 2){
+        return false;
+    }
+    if(m2[3] != 3){
+        return false;
+    }
+    return true;
+};
+// test  bool empty() const
+TC test102 = []() -> bool {
+    map<int, int> m;
+    if(m.empty() == false){
+        return false;
+    }
+    m.insert(1, 1);
+    if(m.empty() == true){
+        return false;
+    }
+    return true;
+};
+// test  size_t size() const
+TC test103 = []() -> bool {
+    map<int, int> m;
+    if(m.size() != 0){
+        return false;
+    }
+    m.insert(1, 1);
+    if(m.size() != 1){
+        return false;
+    }
+    m.insert(2, 2);
+    if(m.size() != 2){
+        return false;
+    }
+    m.insert(3, 3);
+    if(m.size() != 3){
+        return false;
+    }
+    return true;
+};
+// test  T2& operator[](const T1& key);  
+TC test104 = []() -> bool {
+    map<int, int> m;
+    m[1] = 1;
+    m[2] = 2;
+    m[3] = 3;
+    if(m.size() != 3){
+        return false;
+    }
+    if(m[1] != 1){
+        return false;
+    }
+    if(m[2] != 2){
+        return false;
+    }
+    if(m[3] != 3){
+        return false;
+    }
+    return true;
+};
+// test  T2& at(const T1& key) const; 
+TC test105 = []() -> bool {
+    map<int, int> m;
+    m.insert(1, 1);
+    m.insert(2, 2);
+    m.insert(3, 3);
+    if(m.at(1) != 1){
+        return false;
+    }
+    if(m.at(2) != 2){
+        return false;
+    }
+    if(m.at(3) != 3){
+        return false;
+    }
+    return true;
+};
+// test  void insert(const T1& key, const T2& value);
+TC test106 = []() -> bool {
+    map<int, int> m;
+    m.insert(1, 1);
+    m.insert(2, 2);
+    m.insert(3, 3);
+    if(m.size() != 3){
+        return false;
+    }
+    if(m[1] != 1){
+        return false;
+    }
+    if(m[2] != 2){
+        return false;
+    }
+    if(m[3] != 3){
+        return false;
+    }
+    return true;
+};
+// test  void erase(const T1& key);
+TC test107 = []() -> bool {
+    map<int, int> m;
+    m.insert(1, 1);
+    m.insert(2, 2);
+    m.insert(3, 3);
+    m.erase(1);
+    if(m.size() != 2){
+        return false;
+    }
+    if(m[1] != 0){
+        return false;
+    }
+    if(m[2] != 2){
+        return false;
+    }
+    if(m[3] != 3){
+        return false;
+    }
+    m.erase(2);
+    if(m.size() != 2){
+        return false;
+    }
+    if(m[1] != 0){
+        return false;
+    }
+    if(m[2] != 0){
+        return false;
+    }
+    if(m[3] != 3){
+        return false;
+    }
+    m.erase(3);
+    if(m.size() != 2){
+        return false;
+    }
+    if(m[1] != 0){
+        return false;
+    }
+    if(m[2] != 0){
+        return false;
+    }
+    if(m[3] != 0){
+        return false;
+    }
+    return true;
+};
+// test  void clear();
+TC test108 = []() -> bool {
+    map<int, int> m;
+    m.insert(1, 1);
+    m.insert(2, 2);
+    m.insert(3, 3);
+    m.clear();
+    if(m.size() != 0){
+        return false;
+    }
+    if(m[1] != 0){
+        return false;
+    }
+    if(m[2] != 0){
+        return false;
+    }
+    if(m[3] != 0){
+        return false;
+    }
+    return true;
+};
+// test  int count(const T1& key) const ;
+TC test109 = []() -> bool {
+    map<int, int> m;
+    m.insert(1, 1);
+    m.insert(2, 2);
+    m.insert(3, 3);
+    if(m.count(1) != 1){
+        return false;
+    }
+    if(m.count(2) != 1){
+        return false;
+    }
+    if(m.count(3) != 1){
+        return false;
+    }
+    if(m.count(4) != 0){
+        return false;
+    }
+    return true;
+};
+// test  int findidx(const T1& key) const;
+TC test110 = []() -> bool {
+    // map<int, int> m;
+    // m.insert(1, 1);
+    // m.insert(2, 2);
+    // m.insert(3, 3);
+    // if(m.findidx(1) != 0){
+    //     return false;
+    // }
+    // if(m.findidx(2) != 1){
+    //     return false;
+    // }
+    // if(m.findidx(3) != 2){
+    //     return false;
+    // }
+    // if(m.findidx(4) != m.size()){
+    //     return false;
+    // }
+    //retire findidx
+    return true;
+};
 
 
 //testGroup 
@@ -866,7 +1566,14 @@ const TC testGroup[] = {test1, test2, test3, test4 ,test5,
                         test56, test57, test58, test59, test60,
                         test61, test62, test63, test64, test65,
                         test66, test67, test68, test69, test70,
-                        test71, test72};
+                        test71, test72, test73, test74, test75,
+                        test76, test77, test78, test79, test80,
+                        test81, test82, test83,  test84, test85,
+                        test86, test87, test88, test89, test90,
+                        test91, test92, test93, test94, test95,
+                        test96, test97, test98, test99, test100,
+                        test101, test102, test103, test104, test105,
+                        test106, test107, test108, test109, test110};
 
 SophiscatedMMInstance smm;
 
@@ -874,6 +1581,8 @@ char localMemory[1024 * 1024];
 
 
 int main(){
+    node::nil = node();
+    node::nil.sz = 0;
     smm.setInit([](void ** mem){
         *mem = localMemory;
     });

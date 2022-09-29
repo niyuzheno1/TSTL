@@ -1,7 +1,10 @@
 #pragma once
 
 #include "global_allocation_policy.h"
-
+#include "splay_key_value_pair.h"
+#include "splay_tree_iterator.h"
+#include "snode.h"
+#include "splay_tree_count.h"
 namespace tstl
 {
     template<class splay_key, class splay_value>
@@ -9,13 +12,13 @@ namespace tstl
     {
     public:
         using splay_k_v_pair = splay_key_value_pair<splay_key, splay_value>;
-        using iterator = splay_tree_iterator<splay_tree, splay_key_value_pair<splay_key, splay_value>>;
+        using iterator = splay_tree_iterator<const splay_tree, splay_key_value_pair<splay_key, splay_value>>;
         using snode_type  = snode<splay_key, splay_value>;
-        splay_k_v_pair &get_key_value_ref(node *ptr)
+        splay_k_v_pair &get_key_value_ref(node *ptr) const
         {
             return ((snode_type*)(ptr))->get_key_value_ref();
         }
-        splay_k_v_pair *get_key_value_ptr(node *ptr)
+        splay_k_v_pair *get_key_value_ptr(node *ptr) const
         {
             return ((snode_type*)(ptr))->get_key_value_ptr();
         }
@@ -44,9 +47,19 @@ namespace tstl
             root = &node::nil;
         }
 
+        void assign(const splay_tree & mx)
+        {
+            this->isLCT = mx.isLCT;
+            this->require_unique = mx.require_unique;
+            this->root = &node::nil;
+            for(auto & x : mx){
+                this->insert(x.first, x.second);
+            }
+        }
+
         bool empty() const
         {
-            return root == &snode::nil;
+            return root == &node::nil;
         }
 
         int size() const
@@ -65,13 +78,13 @@ namespace tstl
             return snode_cast(root);
         }
 
-        snode_type * snode_cast(node * t){
+        snode_type * snode_cast(node * t) const{
             return snode_type::snode_cast(t);
         }
 
-        iterator begin()
+        iterator begin() const
         {
-            snode_type *ret = snode_cast(root->begin(&root));
+            snode_type *ret = snode_cast(((splay_tree*)this)->root->begin(&(((splay_tree*)this)->root)));
             return iterator(this, ret);
         }
 
@@ -101,21 +114,19 @@ namespace tstl
             return iterator(this, ret);
         }
 
-        iterator successor(iterator &x)
+        iterator successor(iterator &x) const
         {
-            // snode *ret = x.getPtr()->successor(&root);
-            snode_type *ret = snode_cast(x.getPtr()->successor(&root));
+            snode_type *ret = snode_cast(x.getPtr()->successor(&(((splay_tree*)this)->root)));
             return iterator(this, ret);
         }
 
-        iterator predecessor(iterator &x)
+        iterator predecessor(iterator &x) const
         {
-            // snode *ret = x.getPtr()->predecessor(root);
-            snode_type *ret = snode_cast(x.getPtr()->predecessor(&root));
+            snode_type *ret = snode_cast(x.getPtr()->predecessor(&(((splay_tree*)this)->root)));
             return iterator(this, ret);
         }
 
-        iterator end()
+        iterator end() const
         {
             return iterator(this, &node::nil);
         }
