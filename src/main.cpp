@@ -1,11 +1,15 @@
 #include "TSTL/export.h"
 #include "MMS/export.h"
+#include "CPPFTL/export.h"
 #include <functional>
 #include <iostream>
 using namespace tstl;
 using namespace MMS;
+using namespace CPPFTL;
 
 using TC = std::function<bool()>;
+int seed;
+int numberGenerated = 1000;
 
 TC test1 = []() -> bool {
     //test linked_list_entry
@@ -24,20 +28,30 @@ TC test1 = []() -> bool {
     return true;
 };
 
+void generate(Fuzzer<int> & fuzzer, int seed, int N, std::function<void(int)> f){
+    fuzzer.setSeed(seed);
+    fuzzer.setType(TYPE_NUMERIC);
+    fuzzer.setRange(0, (int)1e9);
+    fuzzer.setSize(numberGenerated);
+    fuzzer.setIsDifferent(true);
+    fuzzer.generate();
+    for(auto & x : fuzzer){
+        f(x);
+    }
+}
+
 TC test2 = []() -> bool {
     //test linked_list
     linked_list<int> list;
-    list.push_back(1);
-    list.push_back(2);
-    list.push_back(3);
-    if(list.at(0) != 1){
-        return false;
-    }
-    if(list.at(1) != 2){
-        return false;
-    }
-    if(list.at(2) != 3){
-        return false;
+    Fuzzer<int> fuzzer;
+    generate(fuzzer, seed, numberGenerated, [&](int x){
+        list.push_back(x);
+    });
+    auto it = fuzzer.allExclude(-1);
+    for(int i = 0; i < it.size(); ++i){
+        if(list.at(i) != it[i]){
+            return false;
+        }
     }
     return true;
 };
@@ -46,40 +60,33 @@ TC test2 = []() -> bool {
 // test linked_list(const linked_list & vx);
 TC test3 = []() -> bool {
     linked_list<int> list;
-    list.push_back(1);
-    list.push_back(2);
-    list.push_back(3);
+    Fuzzer<int> fuzzer;
+    generate(fuzzer, seed, numberGenerated, [&](int x){
+        list.push_back(x);
+    });
     linked_list<int> list2 = list;
     linked_list<int> list3(list);
     list = list2;
     list = std::move(list3);
-    if(list.size() != 3){
+    if(list.size() != numberGenerated){
         return false;
     }
-    if(list2.size() != 3){
+    if(list2.size() != numberGenerated){
         return false;
     }
     if(list3.size() != 0){
         return false;
     }
-   
-    if(list.at(0) != 1){
-        return false;
+    auto it = fuzzer.allExclude(-1);
+    for(int i = 0; i < it.size(); ++i){
+        if(list.at(i) != it[i]){
+            return false;
+        }
     }
-    if(list.at(1) != 2){
-        return false;
-    }
-    if(list.at(2) != 3){
-        return false;
-    }
-    if(list2.at(0) != 1){
-        return false;
-    }
-    if(list2.at(1) != 2){
-        return false;
-    }
-    if(list2.at(2) != 3){
-        return false;
+    for(int i = 0; i < it.size(); ++i){
+        if(list2.at(i) != it[i]){
+            return false;
+        }
     }
    
     return true;
@@ -1224,21 +1231,20 @@ TC test95 = []() -> bool {
 // test  map(const map & mx) : m_data()
 TC test96 = []() -> bool {
     map<int, int> m;
-    m.insert(1, 1);
-    m.insert(2, 2);
-    m.insert(3, 3);
+    Fuzzer<int> f;
+    generate(f, seed, numberGenerated, [&m](int x){
+        m.insert(x, x);
+    });
+    
     map<int, int> m2(m);
-    if(m2.size() != 3){
+    if(m2.size() != numberGenerated){
         return false;
     }
-    if(m2[1] != 1){
-        return false;
-    }
-    if(m2[2] != 2){
-        return false;
-    }
-    if(m2[3] != 3){
-        return false;
+    auto it = f.allExclude(-1);
+    for(auto i : it){
+        if(m2[i] != i){
+            return false;
+        }
     }
     return true;
 };
@@ -1443,48 +1449,30 @@ TC test106 = []() -> bool {
 // test  void erase(const T1& key);
 TC test107 = []() -> bool {
     map<int, int> m;
-    m.insert(1, 1);
-    m.insert(2, 2);
-    m.insert(3, 3);
-    m.erase(1);
-    if(m.size() != 2){
-        return false;
+    Fuzzer<int> f;
+    generate(f, seed, numberGenerated, [&m](int i){
+        m.insert(i, i);
+    });
+    auto it = f.allExclude(-1);
+    int curSize = m.size();
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(it.begin(), it.end(), g);
+
+    for(int i = 0 ;i < it.size(); i++){
+        auto key = it[i];
+        m.erase(key);
+        --curSize;
+        if(m.size() != curSize){
+            return false;
+        }
+        for(int j = i + 1; j < it.size(); j++){
+            if(m[it[j]] != it[j]){
+                return false;
+            }
+        }
     }
-    if(m[1] != 0){
-        return false;
-    }
-    if(m[2] != 2){
-        return false;
-    }
-    if(m[3] != 3){
-        return false;
-    }
-    m.erase(2);
-    if(m.size() != 2){
-        return false;
-    }
-    if(m[1] != 0){
-        return false;
-    }
-    if(m[2] != 0){
-        return false;
-    }
-    if(m[3] != 3){
-        return false;
-    }
-    m.erase(3);
-    if(m.size() != 2){
-        return false;
-    }
-    if(m[1] != 0){
-        return false;
-    }
-    if(m[2] != 0){
-        return false;
-    }
-    if(m[3] != 0){
-        return false;
-    }
+
     return true;
 };
 // test  void clear();
@@ -1751,22 +1739,36 @@ const TC testGroup[] = {test1, test2, test3, test4 ,test5,
 SophiscatedMMInstance smm;
 
 char localMemory[1024 * 1024];
-
+int failedCases[1024];
 
 int main(){
-    node::nil = node();
-    node::nil.sz = 0;
+    
     smm.setInit([](void ** mem){
         *mem = localMemory;
     });
-    global_allocation_policy::setMemoryManager(&smm);
+    global_allocation_policy::initializeSystem(&smm);
   
     for(int i = 0; i < sizeof(testGroup)/ sizeof(testGroup[0]); i++){
         if(!testGroup[i]()){
             std::cout << "test case " << i + 1<<" failed" << std::endl;
+            failedCases[i] = 1;
         }else{
             std::cout << "test case " << i + 1 <<" passed" << std::endl;
         }
     }
+    for(int i = 0; i < sizeof(testGroup)/ sizeof(testGroup[0]); i++){
+        if(failedCases[i]){
+            std::cout << i + 1 << " ";
+        }
+    }
+    std::cout << std::endl;
+    //get the memory usage
+    char * tm = (char *)smm.getWmem();
+    // diff with localMemory
+    int cnt = tm - localMemory;
+    std::cout << "memory usage: " << cnt << std::endl;
+    //in KB
+    std::cout << "memory usage: " << cnt / 1024 << "KB" << std::endl;
+
     return 0;
 }

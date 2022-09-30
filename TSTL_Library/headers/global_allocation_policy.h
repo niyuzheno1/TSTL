@@ -6,6 +6,7 @@ namespace tstl{
     public:
         static void setMemoryManager( MMS::GenericMemoryManager * mm);
         static MMS::GenericMemoryManager *  getMemoryManager();
+        static void initializeSystem(MMS::GenericMemoryManager * mm);
     private:
         static MMS::GenericMemoryManager * mms;
     };
