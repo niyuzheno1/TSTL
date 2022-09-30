@@ -1455,7 +1455,10 @@ TC test107 = []() -> bool {
     });
     auto it = f.allExclude(-1);
     int curSize = m.size();
-    std::random_shuffle(it.begin(), it.end());
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(it.begin(), it.end(), g);
+
     for(int i = 0 ;i < it.size(); i++){
         auto key = it[i];
         m.erase(key);
@@ -1739,12 +1742,11 @@ char localMemory[1024 * 1024];
 int failedCases[1024];
 
 int main(){
-    node::nil = node();
-    node::nil.sz = 0;
+    
     smm.setInit([](void ** mem){
         *mem = localMemory;
     });
-    global_allocation_policy::setMemoryManager(&smm);
+    global_allocation_policy::initializeSystem(&smm);
   
     for(int i = 0; i < sizeof(testGroup)/ sizeof(testGroup[0]); i++){
         if(!testGroup[i]()){
